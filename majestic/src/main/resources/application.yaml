@@ -1,0 +1,9 @@
+spring:
+  application:
+    name : majestic
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/majestic_${PROFILE}_db
+
+
+

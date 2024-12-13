@@ -1,0 +1,39 @@
+services:
+
+  mongo_db:
+    container_name: mongoCont
+
+    networks:
+      - appMongo
+    image: mongo:latest
+
+    environment:
+      - MONGO_INIT_ROOT_USERNAME=$MONGODB_USER
+      - MONGO_INIT_ROOT_PASSWORD=$MONGODB_PASSWORD
+    ports:
+      - '7017:27017'
+    volumes:
+      - db:/data/db
+
+  app:
+    container_name: appCont
+    networks:
+      - appMongo
+    depends_on:
+      - mongo_db
+    build: .
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+
+    volumes:
+      - .m2:/root/.m2
+
+    stdin_open: true
+    tty: true
+
+
+volumes:
+  db:
+networks:
+  appMongo : { }
